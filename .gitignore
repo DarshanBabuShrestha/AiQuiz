@@ -1,0 +1,6 @@
+node_modules
+.env
+.json
+venv/
+# Ignore Google Cloud service account key file
+backend/tts-test.json

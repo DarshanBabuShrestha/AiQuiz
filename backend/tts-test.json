@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "ai-lecture-generator",
+    "private_key_id": "36b97665aea1a43125c2c61b5e6443cba426297d",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC5681uewiVlsQj\nkdMaBURkXludapqcgZUHf6fXPSlxX+ITgey9dg2f4fhajYWfYN58F3+sN0vfrHKH\noNFA9OOYVY+U9EBXcCByr+pd8JOaoU/YGblAa1GuUUxf4yD3XOAm+thQB365GQ40\nttxj9Q+03WYTeir2JTIgA1PU9E6HpAg1i/5KPlyPQveSHh5S5AQ2jkxPeV7e4MYB\nMEf1VjkcHyr0nI+pMx++Y3RhbWoy7c89a+Sr8QdSHdp5BUfl+szpPSa8Yvtk4xeL\nqkCYO68GmMGcRSm7TmiNuMruCG6moVqstevSqN4qEPVKXfoJwW5PbbI2y4/wlFd1\nZA9AaYGXAgMBAAECggEAU8mYAEVEPh3+8MTELULYap83jH7BhOzFG+cE3fR7W9PJ\nT99KsKumQjqVMUH8STJfse7pI9Sbxgayarsn8q0qcLmGhqt4367xgJ4U8hb8fkBa\nelpFaWm0GuoakFAMyE272vVLTO3Dx2kqRMlwE0AavvjUCs0Q1XM33sOBIUSkq22V\nZynlz8aSIuQFUDYYpheeRuku4IcTqvpChH3bo2TtGrDH9yYTKI6Zd2DafmD3szV6\nfzasCBFlsVzopzY/TUyN3sisxOSSRep3f+1PyPhf+HBRs3T45jzZPrlLTJv0mTwT\nsd3XZVGIpjOK7tzCg6kGLI6oJee9vqg4RpxbmtkUuQKBgQDgy9nBepFmOPPWMHCU\nWssK+p++pI8qyP/YPhP7PE7j38UXzKluEEm5VRDsEjGk05lrrlIa+zTBLu3thPEC\nDeZF7dG177i5udqHxHLO+qJSpiHexSPpG9AY9BUmKJn0+d3sd7glSSKJc4RlODH1\nq28aF1OMle2cLQTSC1j2vZYHtQKBgQDTuoUP0fOw+W77fAPywoDB19Dt2MRtka4E\n6DJA+dLGxuxPboWLBoi0A2we3XmNtP2lMX85PuYohaWZEQnthjlNgy9/sb2DwUSv\njO2Uj6+g7l6C6IvNGSwpwsEJGbj444dUU2bMsJugsAeBB29yyEvzdO7zJs9FrcDH\nuTVdvO/bmwKBgAxYRYIRiBCUChf2Gwian9Hfh4xBnzcbSKmIZzKB0ldDP6CZ9af8\nrv/FgyNjsGQ71o4KSan/p5sAR8KmbVHOj5nBgKW8H2nbofuYtzFUpDtjsjJ4ows3\nIstsBAlPa3z/h8dnn640gPgJZvjkCCJUospNA6KRzTWpZz1dsCoEqUuNAoGAPpGF\nFuq9cBQWJv08EXZHJIGJfXAshBCj81FG4IqzLgjE9qg7kJ0Kst+8CNb8P9M3jaS1\n6w3aaCkuibBOVcHvlydoVv0IezIXASXNY7SeexlWFqtv/NkugtzJvM28KtjaOiI3\nY8/g/bhnT0sKNUpZn4Vzw6k5YWb6bEsgKSZXX3cCgYB9OGU9jRw7AMd2hYZG4IAD\nrARKASpYxGqnBWcIjYeuHu1EMABQupv5glhfZTQwaarKaJ065bCdfsnATbEtWKJ9\nX7aRcc1zC8pl7JwtgIbvj2xg2WFfQvWAXlkYrKJRt3H1nIRMmAeTwqbGQToHqy4P\nx+3YifcN/cHwYQjf1MaaJw==\n-----END PRIVATE KEY-----\n",
+    "client_email": "tts-946@ai-lecture-generator.iam.gserviceaccount.com",
+    "client_id": "116291074602508693459",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tts-946%40ai-lecture-generator.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }
