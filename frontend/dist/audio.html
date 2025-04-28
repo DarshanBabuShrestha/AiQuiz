@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Audio & PDF Viewer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script> <!-- PDF.js -->
+    <style>
+        
+        body {
+            background-image: #ffffff;
+            color: #000000;
+            font-family: "Courier New", monospace;
+            text-align: center;
+            
+        }
+        h1 {
+            color: #000000;
+            font-family: "Courier New", monospace;
+        }
+        #pdf-container {
+            margin-top: 20px;
+        }
+        canvas {
+            border: 1px solid #ffffff;
+            max-width: 100%;
+            max-height: 650px;
+        }
+        
+        #audio-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+           
+        
+        }
+        audio {
+            width: 80%;
+            max-width: 100%px;
+        }
+      
+     
+        
+        /* Settings Button */
+        #settings-button {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 20px;
+            cursor: pointer;
+            
+
+        }
+        #settings-menu {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background-color: rgba(167, 167, 167, 0.9);
+            padding: 15px;
+            width: 250px;
+            text-align: left;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+            z-index: 2000;
+        }
+
+        #settings-menu label {
+            color: #ffffff;
+            font-size: 14px;
+            display: block;
+            width:50%
+        }
+        /* Exit Button for Settings */
+        #exit-settings {
+            display: inline;
+            margin-top: 10px;
+            padding: 1px;
+            background-color: #ff4444;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            width: 50%;
+            text-align: center;
+            font-size: 20px;
+        }
+        #exit-settings:hover {
+            background-color: #772a2a;
+        }
+        
+        #controls {
+            margin-top: 10px;
+
+        }
+        button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 10px;
+            background-color: #ffffff;
+            color: #121212;
+            border: none;
+            cursor: pointer;
+            font-family: "Courier New", monospace;
+            transition: background 0.3s;
+            
+        }
+        button:hover {
+            background-color: #555555;
+        }
+            /* Chatbot Button */
+
+        #chat-toggle {
+            position: fixed;
+            bottom: 25px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            z-index: 9999; 
+            transition: background 0.5s;
+        }
+        #chat-toggle:hover {
+            background-color: #bbbbbb;
+        }
+        /* Chatbot Window */
+        #chatbot-container {
+            position: fixed;
+            bottom: 80px;
+            right: 1px;
+            width: 320px;
+            height: 400px;
+            background: #1a1a1a;
+            border: 1px solid #555;
+            border-radius: 8px;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            opacity: 1;
+            z-index: 1000;
+        }
+        /* Chat Header */
+        #chat-header {
+            background: #333;
+            padding: 10px;
+            font-size: 14px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* Close Chat Button */
+        #close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        /* Chat Messages Area */
+        #chat-area {
+            flex-grow: 1;
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 13px;
+            max-height: 250px;
+            color: white;
+            background-color: #1a1a1a;
+            border-bottom: 1px solid #444;
+        }
+        /* Chat Input */
+        #chat-input {
+            width: calc(100% - 15px);
+            padding: 8px;
+            border: none;
+            border-top: 1px solid #555;
+            background: #222;
+            color: white;
+            font-size: 13px;
+            z-index: 1001;
+        }
+        #settings-menu, #volume-slider{
+            z-index: 500;
+        }
+        /* Send Button */
+        #send-chat {
+            width: 59px;
+            padding: 8px;
+            background: #4d4747;
+            border: none;
+            cursor: pointer;
+            color: white;
+            font-size: 13px;
+        }
+        #send-chat:hover{
+            background: #413e3e;
+        }
+        .user-message, .ai-message {
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .user-message {
+            background: #008CBA;
+            text-align: right;
+        }
+        .ai-message {
+            background: #3a3a3a;
+            text-align: left;
+        }
+        #home-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #008CBA;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: background 0.3s;
+        }
+        #home-button:hover {
+            background: #005f75;
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 18px;
+            
+            }
+            #pdf-container {
+            margin-top: 20px;
+            ;
+
+            }
+
+            #settings-menu {
+                width: 40%;
+                right: 10%;
+                padding: 10px;
+ 
+            }
+            #settings-menu label {
+                font-size: 12px;
+            }
+            button{
+                font-size: 12px;
+                padding: 8px 12px;
+                border:1px solid black;
+                border-radius:100px;
+
+            }
+            #send-chat{
+                font-size:12px;
+                padding:8px 12px;
+            }
+            #home-button{
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+            #chatbot-container {
+                width: 90%;
+                right: 5%;
+                height: 350px;
+            }
+        }
+        /* Tablet (Min Width: 601px and Max Width: 1024px) */
+        @media (min-width: 601px) and (max-width: 1024px) {
+            h1 {
+                font-size: 24px;
+            }
+            #settings-menu {
+                width: 25%;
+                right: 10%;
+                padding: 10px;
+
+            }
+            #chatbot-container {
+                width: 30%;
+                right: 2%;
+                height: 380px;
+            }
+            button {
+                font-size: 14px;
+                padding: 10px 11px;
+                border:1px solid black;
+                border-radius:100px;
+            }
+            #send-chat{
+                font-size:14px;
+                padding:10px 11px;
+            }
+            #home-button{
+                font-size: 14px;
+                padding: 10px 11px;
+            }
+        }
+        /*Laptop & Large Screens (Min Width: 1025px) */
+        @media (min-width: 1025px) {
+            h1 {
+                font-size: 28px;
+            }
+            #settings-menu {
+                width: 14%;
+                right: 10%;
+                padding: 10px;
+            }
+            #chatbot-container {
+                width: 320px;
+                height: 400px;
+                right: 20px;
+            }
+            button {
+                font-size: 16px;
+                padding: 10px 9px; 
+                border:1px solid black;
+                border-radius:100px;
+                
+            }
+            #send-chat{
+                font-size:16px;
+                padding:10px 9px;
+
+            }
+            #home-button{
+                font-size: 16px;
+                padding: 10px 9px;
+            }
+        }
+    </style>
+</head>
+<body>
+<button id="chat-toggle" onclick="toggleChat()">💬</button>
+<!-- Chatbot Window -->
+<div id="chatbot-container">
+    <div id="chat-header">
+        <span>AI Professor</span>
+        <button id="close-chat" onclick="toggleChat()">✖</button>
+    </div>
+    <div id="chat-area"></div>
+    <input type="text" id="chat-input" placeholder="Ask a question..." onkeypress="handleKeyPress(event)">
+    <button id="send-chat" onclick="sendMessage()">Send</button>
+</div>
+<script>
+    function toggleChat() {
+        let chatbox = document.getElementById("chatbot-container");
+        chatbox.style.display = (chatbox.style.display === "none" || chatbox.style.display === "") ? "flex" : "none";
+    }
+    function handleKeyPress(event) {
+        if (event.key === "Enter") sendMessage();
+    }
+    async function sendMessage() {
+        let input = document.getElementById("chat-input");
+        let message = input.value.trim();
+        if (!message) return;
+        let chatArea = document.getElementById("chat-area");
+        chatArea.innerHTML += `<div class="user-message">${message}</div>`;
+        input.value = "";
+
+        try {
+            let response = await fetch("http://127.0.0.1:8080/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `query=${encodeURIComponent(message)}`
+            });
+            let data = await response.json();
+            let botResponse = data.response || "Error processing request.";
+            chatArea.innerHTML += `<div class="ai-message">${botResponse}</div>`;
+            if (data.audio_url) {
+                chatArea.innerHTML += `<audio controls><source src="${data.audio_url}" type="audio/mp3"></audio>`;
+            }
+            chatArea.scrollTop = chatArea.scrollHeight;
+        } catch (error) {
+            chatArea.innerHTML += `<div class="ai-message">Error: Could not connect to AI server.</div>`;
+        }
+    }
+</script>
+    <!-- Title -->
+    <h1>AI POWERED LECTURE</h1>
+    <!-- PDF Viewer -->
+    
+    <div id="pdf-container">
+        <canvas id="pdfCanvas"></canvas>
+    </div>
+    <!-- Audio Player with Volume Slider & Settings Button -->
+     
+    <div id="audio-container">
+        <audio id="audioPlayer" controls>
+            <source src="" type="audio/mp3">
+        </audio>
+        
+
+    <!-- Settings Button -->
+    <button id="settings-button" onclick="toggleSettings()">⚙️</button>
+    </div> 
+    <!-- Settings Dropdown -->
+    <div id="settings-menu">
+    <label for="speed-slider">Playback Speed: <span id="speed-value">1.0x</span></label>
+    <input type="range" id="speed-slider" min="0.5" max="2" step="0.1" value="1.0" oninput="changeSpeed()">
+    
+    <!-- Download Audio Button -->
+    <button id="download-audio" onclick="downloadAudio()">Download Audio</button>
+    
+    <!-- Exit Button Inside Settings Menu -->
+    <button id="exit-settings" onclick="toggleSettings()">⏎</button>
+
+    <style>
+        .button {
+            margin-top: 20px;
+            background-color: #7a7e83;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background-color: #000000;
+        }
+    </style>
+
+    </div>
+
+    <script>
+        function downloadAudio() {
+            let audioElement = document.getElementById("audioPlayer");
+            let audioSource = audioElement.querySelector("source").src;
+
+            if (!audioSource) {
+                alert("No audio file available for download.");
+                return;
+            }
+
+            let downloadLink = document.createElement("a");
+            downloadLink.href = audioSource;
+            downloadLink.download = "Generated_Audio.mp3";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+    </script>
+    
+
+    
+
+  
+
+    <!-- Slide Controls -->
+<!-- Navigation buttons moved below the play button -->
+    <div id="navigation-container">
+        <button id="prev-button" onclick="prevPage()">Previous</button>
+        <span>Page: <span id="pageNum">1</span> / <span id="pageCount">?</span></span>
+        <button id="next-button" onclick="nextPage()">Next</button>
+
+    </div>
+    <div>
+        <button class="button" onclick="window.location.href='quiz.html'">GENERATE QUIZ</button>
+        
+    </div>   
+
+
+    <script>
+        let pdfDoc = null,
+            pageNum = 1,
+            pageCount = 0,
+            params = new URLSearchParams(window.location.search),
+            fileurl = params.get("file_url") ? decodeURIComponent(params.get("file_url")) : null,
+            audioUrl = params.get("audio_url") ? decodeURIComponent(params.get("audio_url")) : null,
+            canvas = document.getElementById("pdfCanvas"),
+            ctx = canvas.getContext("2d");
+
+        console.log("Full Query String:", window.location.search);
+        console.log("Extracted PDF URL:", fileurl); 
+        console.log("Extracted Audio URL:", audioUrl);
+
+        function toggleSettings() {
+            let menu = document.getElementById("settings-menu");
+            menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none";
+        }
+
+        function changeSpeed() {
+            let audioPlayer = document.getElementById("audioPlayer");
+            let speedSlider = document.getElementById("speed-slider");
+            let speedValue = document.getElementById("speed-value");
+
+            let speed = parseFloat(speedSlider.value);
+            audioPlayer.playbackRate = speed;
+            speedValue.innerText = speed.toFixed(1) + "x";
+        }
+
+        function changeVolume() {
+            let audioPlayer = document.getElementById("audioPlayer");
+            let volumeSlider = document.getElementById("volume-slider");
+
+            audioPlayer.volume = parseFloat(volumeSlider.value);
+        }
+
+        function loadPdf(url) {
+            fetch(url).then(response => response.blob()).then(blob => {
+                let pdfUrl = URL.createObjectURL(blob);
+                pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
+                    pdfDoc = pdf;
+                    pageCount = pdf.numPages;
+                    document.getElementById("pageCount").innerText = pageCount;
+                    renderPage(pageNum);
+                });
+            }).catch(error => {
+                console.error("Error loading PDF:", error);
+            });
+        }
+
+        function renderPage(num) {
+            pdfDoc.getPage(num).then(page => {
+                let viewport = page.getViewport({ scale: 1.5 });
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                let renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+
+                page.render(renderContext).promise.then(() => {
+                    document.getElementById("pageNum").innerText = num;
+                });
+            });
+        }
+
+        function nextPage() {
+            if (pageNum < pageCount) {
+                pageNum++;
+                renderPage(pageNum);
+            }
+        }
+
+        function prevPage() {
+            if (pageNum > 1) {
+                pageNum--;
+                renderPage(pageNum);
+            }
+        }
+
+        window.onload = function () {
+            if (fileurl) loadPdf(fileurl);
+            if (audioUrl) {
+                document.getElementById("audioPlayer").src = audioUrl;
+                document.getElementById("audioPlayer").style.display = "block";
+            }
+        };
+    </script>
+
+<script>
+    function askQuestion() {
+        let input = document.getElementById("chat-input").value.trim();
+        if (!input) return;
+        let chatLog = document.getElementById("chat-log");
+
+        // Display user's question
+        chatLog.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
+
+        // Send question to FastAPI backend
+        fetch("http://127.0.0.1:8080/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams({ query: input })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.response) {
+                let botResponse = data.response;
+                let audioUrl = data.audio_url || null;
+
+                chatLog.innerHTML += `<p><strong>AI:</strong> ${botResponse}</p>`;
+
+                if (audioUrl) {
+                    let audioPlayer = new Audio(audioUrl);
+                    audioPlayer.play();
+                }
+            } else {
+                chatLog.innerHTML += `<p><strong>AI:</strong> Error processing request.</p>`;
+            }
+        })
+        .catch(error => {
+            console.error("Chatbot request failed:", error);
+            chatLog.innerHTML += `<p><strong>AI:</strong> Error processing request.</p>`;
+        });
+
+        document.getElementById("chat-input").value = "";
+    }
+    
+</script>
+
+
+</body>
+</html>
