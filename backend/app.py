@@ -304,8 +304,8 @@ async def upload_file(file: UploadFile = File(...)):
             print("ERROR: Audio generation failed.")
             return JSONResponse(content={"message": "Audio generation failed."}, status_code=500)
 
-        file_url = f"http://127.0.0.1:8080/uploads/{file.filename}"
-        audio_url = f"http://127.0.0.1:8080/uploads/{audio_filename}"
+        file_url = f"https://slides-to-ai-powered-lecture-3.onrender.com/uploads/{file.filename}"
+        audio_url = f"https://slides-to-ai-powered-lecture-3.onrender.com/{audio_filename}"
 
         print(f"Returning JSON Response:\nFile URL: {file_url}\nAudio URL: {audio_url}")  # Debugging log
 
@@ -369,7 +369,7 @@ async def chat(query: str = Form(...)):
         response_text = "Error generating AI response."
 
     audio_filename = text_to_speech(response_text) if response_text else None
-    audio_url = f"http://127.0.0.1:8080/uploads/{audio_filename}" if audio_filename else None
+    audio_url = f"https://slides-to-ai-powered-lecture-3.onrender.com/uploads/{audio_filename}" if audio_filename else None
 
     return JSONResponse(content={"response": response_text, "audio_url": audio_url})
 
