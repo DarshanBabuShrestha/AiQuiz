@@ -26,7 +26,7 @@ export function UploadPage() {
     try {
       console.log(" Uploading file to FastAPI..."); // Debug log
   
-      const response = await fetch("http://127.0.0.1:8080/upload", {
+      const response = await fetch("https://slides-to-ai-powered-lecture-3.onrender.com/upload", {
         method: "POST",
         body: formData,
       });
