@@ -340,7 +340,7 @@
     </style>
 </head>
 <body>
-<button id="chat-toggle" onclick="toggleChat()">💬</button>
+<button id="chat-toggle">💬</button>
 <!-- Chatbot Window -->
 <div id="chatbot-container">
     <div id="chat-header">
@@ -351,6 +351,11 @@
     <input type="text" id="chat-input" placeholder="Ask a question..." onkeypress="handleKeyPress(event)">
     <button id="send-chat" onclick="sendMessage()">Send</button>
 </div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("chat-toggle").addEventListener("click", toggleChat);
+});
+</script>
 <script>
     function toggleChat() {
         let chatbox = document.getElementById("chatbot-container");
@@ -368,7 +373,7 @@
         input.value = "";
 
         try {
-            let response = await fetch("https://slides-to-ai-powered-lecture-3.onrender.com/chat", {
+            let response = await fetch("http://127.0.0.1:8080/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `query=${encodeURIComponent(message)}`
@@ -572,7 +577,7 @@
         chatLog.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
 
         // Send question to FastAPI backend
-        fetch("http://https://slides-to-ai-powered-lecture-3.onrender.com/chat", {
+        fetch("http://127.0.0.1:8080/chat", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: new URLSearchParams({ query: input })
