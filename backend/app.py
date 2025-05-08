@@ -206,17 +206,28 @@ def generate_lecture_transcript_gemini(extracted_text):
     headers = {"Content-Type": "application/json"}
 
     try:
+        print("Using GEMINI_API_KEY:", os.getenv("GEMINI_API_KEY"))  # Log the API key being used
+
         response = requests.post(gemini_api_url, json=payload, headers=headers, timeout=15)
+        print(f"Gemini API Response Status: {response.status_code}")  # Log status code
+        print(f"Gemini API Response Body: {response.text}")  # Log full response body
+
         response_data = response.json()
 
         if response.status_code == 200 and "candidates" in response_data:
             return response_data["candidates"][0]["content"]["parts"][0]["text"].strip()
         else:
-            return "Error generating transcript"
+            error_message = response_data.get("error", {}).get("message", "Unknown error")
+            print(f"Gemini API Error Message: {error_message}")
+            return f"Error generating transcript: {error_message}"
+
+    except requests.exceptions.RequestException as e:
+        print(f"Gemini API Request Exception: {e}")
+        return "Error: Failed to connect to Gemini API."
 
     except Exception as e:
-        print(f" Gemini API Error: {e}")
-        return "Error generating transcript"
+        print(f"Unexpected Error in generate_lecture_transcript_gemini: {e}")
+        return f"Error: {str(e)}"
 
 def text_to_speech(transcript):
     audio_filename = f"lecture_{uuid.uuid4().hex}.mp3"
@@ -258,29 +269,45 @@ async def upload_file(file: UploadFile = File(...)):
         file_ext = file.filename.split('.')[-1].lower()
         file_path = os.path.join(UPLOAD_DIR, file.filename)
 
+        # Save the uploaded file
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
         if not os.path.exists(file_path):
-            print(f" ERROR: File {file_path} was not saved properly!")
+            print(f"ERROR: File {file_path} was not saved properly!")
             return JSONResponse(content={"message": "File save failed."}, status_code=500)
 
-        print(f" File successfully saved at: {file_path}")
+        print(f"File successfully saved at: {file_path}")
 
-        extracted_text = extract_text_from_pdf(file_path) if file_ext == 'pdf' else extract_text_from_pptx(file_path)
+        # Extract text based on file type
+        if file_ext == 'pdf':
+            extracted_text = extract_text_from_pdf(file_path)
+        elif file_ext == 'pptx':
+            extracted_text = extract_text_from_pptx(file_path)
+        else:
+            print(f"ERROR: Unsupported file type: {file_ext}")
+            return JSONResponse(content={"message": "Unsupported file type."}, status_code=400)
 
+        print(f"Extracted text: {extracted_text[:500]}...")  # Log first 500 characters of extracted text
+
+        # Generate AI transcript
         ai_transcript = generate_lecture_transcript_gemini(extracted_text)
         if "Error" in ai_transcript:
-            return JSONResponse(content={"message": "Transcript generation failed."}, status_code=400)
+            print(f"ERROR: Transcript generation failed: {ai_transcript}")
+            if "No readable text" in ai_transcript:
+                return JSONResponse(content={"message": "The uploaded file doesn't contain readable text."}, status_code=400)
+            return JSONResponse(content={"message": "Transcript generation failed due to an AI error."}, status_code=400)
 
+        # Generate audio from transcript
         audio_filename = text_to_speech(ai_transcript)
         if not audio_filename:
+            print("ERROR: Audio generation failed.")
             return JSONResponse(content={"message": "Audio generation failed."}, status_code=500)
 
         file_url = f"http://127.0.0.1:8080/uploads/{file.filename}"
         audio_url = f"http://127.0.0.1:8080/uploads/{audio_filename}"
 
-        print(f" Returning JSON Response:\nFile URL: {file_url}\nAudio URL: {audio_url}")  # Debugging log
+        print(f"Returning JSON Response:\nFile URL: {file_url}\nAudio URL: {audio_url}")  # Debugging log
 
         return JSONResponse(content={
             "file_url": file_url,
@@ -288,7 +315,7 @@ async def upload_file(file: UploadFile = File(...)):
         }, status_code=200)
 
     except Exception as e:
-        print(f" FastAPI Error: {e}")  
+        print(f"FastAPI Error: {e}")  # Log the exception
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
 @app.post("/chat")
