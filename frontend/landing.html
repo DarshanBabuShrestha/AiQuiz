@@ -13,7 +13,7 @@
             position: fixed;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #4d4a47, #dadada);
+            background: url('purple.png') no-repeat center center/cover;
             z-index: -1;
         }
 
@@ -32,18 +32,13 @@
 
         /* Upload Box */
         #upload-container {
-            background: #222121;
-            padding: 5px;
-            border-radius: 12px;
-            box-shadow: 0px 4px 10px rgb(173, 172, 172);
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 15px;
-            backdrop-filter: blur(10px);
-            max-width: 90%;
-            width: 350px;
-            transition: all 0.3s ease-in-out;
+            background: transparent;
+            box-shadow: none;
+            padding: 0;
         }
 
         /* Animated Title */
@@ -79,7 +74,7 @@
 
         .custom-file-upload, button {
             padding: 12px 24px;
-            background: #3b3c3f;
+            background: #007cff;
             color: white;
             border: none;
             cursor: pointer;
@@ -89,7 +84,7 @@
         }
 
         .custom-file-upload:hover, button:hover {
-            background: #bbb5b5;
+            background: #000000;
             transform: scale(1.05);
         }
 
@@ -118,8 +113,8 @@
             }
 
             #upload-container {
-                width: 400px;
-                padding: 60px;
+                width: auto;
+                padding: 0;
             }
 
             .custom-file-upload, button {
@@ -168,15 +163,31 @@
     <div id="particles-js"></div>
 
     <div class="typing-container">
-        <h1 class="typing-text">What can I teach you?</h1>
+        <h1 class="typing-text">Get Started !</h1>
     </div>
 
     <div id="upload-container">
-        <label for="fileInput" class="custom-file-upload">Select PDF/PPTX</label>
+        <label for="fileInput" class="custom-file-upload" style="padding: 0; background: none;">
+            <div style="
+                border: 2px solid rgba(255, 255, 255, 0.2); 
+                border-radius: 12px; 
+                padding: 10px;
+                display: inline-block;
+                transition: all 0.3s ease;
+            ">
+                <img src="uploadpdf.png" alt="Upload PDF" style="
+                    width: 160px; 
+                    height: auto; 
+                    object-fit: contain; 
+                    cursor: pointer;
+                    display: block;
+                " />
+            </div>
+        </label>
         <input type="file" id="fileInput" accept=".pdf,.pptx" onchange="displayFileName()">
         <p id="selected-file" style="font-size: 18px; color: #bbb; margin-top: 10px;"></p>
 
-        <button onclick="uploadFile()">Generate Lecture</button>
+        <button onclick="uploadFile()">Generate Quiz</button>
         <div class="loader" id="loader"></div>
         <p id="status"></p>
     </div>
@@ -219,7 +230,7 @@
                 loader.style.display = "none";
 
                 if (data.file_url && data.audio_url) {
-                    window.location.href = `audio.html?file_url=${encodeURIComponent(data.file_url)}&audio_url=${encodeURIComponent(data.audio_url)}`;
+                    window.location.href = `quiz.html?file_url=${encodeURIComponent(data.file_url)}&audio_url=${encodeURIComponent(data.audio_url)}`;
                 } else {
                     throw new Error("Invalid response");
                 }

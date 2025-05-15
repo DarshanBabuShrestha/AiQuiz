@@ -6,7 +6,6 @@ export default defineConfig({
       input: {
         main: 'index.html',
         landing: 'landing.html',
-        audio: 'audio.html',
         quiz: 'quiz.html'
       }
     }

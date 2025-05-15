@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright 2024 Google LLC
+# Copyright 2025 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -396,7 +396,7 @@ class TextToSpeechGrpcAsyncIOTransport(TextToSpeechTransport):
         r"""Return a callable for the streaming synthesize method over gRPC.
 
         Performs bidirectional streaming speech synthesis:
-        receive audio while sending text.
+        receives audio while sending text.
 
         Returns:
             Callable[[~.StreamingSynthesizeRequest],

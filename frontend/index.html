@@ -29,6 +29,16 @@
             z-index: -2;
             overflow: hidden;
         }
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
 
         video {
             position: absolute;
@@ -60,7 +70,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            color: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
             font-family: "Courier New", monospace;
             font-size: 150%;
             
@@ -139,25 +149,16 @@
 <body>
 
     <div class="video-container">
-        <video autoplay muted loop playsinline id="background-video">
-            <source src="Frontend.webm" type="video/webm">
-        </video>
+        <img src="moon.png" alt="Background" class="background-image">
         <div class="overlay"></div>
     </div>
 
     <div class="content">
-        <h1>Your Virtual Professor<br> AI-Powered Lecture</h1>
-        <p>Let AI transform your boring slides into interactive AI-powered lectures.</p>
+        <h1> AI-Powered Quiz</h1>
+        <p>Let AI transform your boring slides into interactive AI-powered Quiz.</p>
         <a href="landing.html" class="get-started">Get Started</a>
     </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let video = document.getElementById("background-video");
-            video.load();
-            video.play().catch(error => console.log("Autoplay failed:", error));
-        });
-    </script>
 
 </body>
 </html>

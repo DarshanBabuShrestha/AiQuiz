@@ -1,4 +1,4 @@
-#!/mnt/c/Users/babud/Spring 2025/SWM/Slides-to-AI-powered-Lecture-master (1)/Slides-to-AI-powered-Lecture-master/backend/venv/bin/python3
+#!/mnt/c/Users/babud/Spring 2025/FinalSlide/Slides-to-AI-powered-Lecture/Slides-to-AI-powered-Lecture/backend/venv/bin/python3
 
 ##############################################################################
 #

@@ -372,7 +372,7 @@ document.addEventListener("DOMContentLoaded", function () {
         input.value = "";
 
         try {
-            let response = await fetch("http://127.0.0.1:8080/chat", {
+            let response = await fetch("https://slides-to-ai-powered-lecture-3.onrender.com/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: `query=${encodeURIComponent(message)}`
@@ -576,7 +576,7 @@ document.addEventListener("DOMContentLoaded", function () {
         chatLog.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
 
         // Send question to FastAPI backend
-        fetch("http://127.0.0.1:8080/chat", {
+        fetch("https://slides-to-ai-powered-lecture-3.onrender.com", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: new URLSearchParams({ query: input })
