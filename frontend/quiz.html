@@ -199,8 +199,8 @@
             quizData.forEach((q, i) => {
                 const listItem = document.createElement("li");
                 listItem.innerHTML = `<strong>Q${i + 1}:</strong> ${q.question} <br> 
-                    ✅ Correct Answer: <strong class="correct">${q.answer}</strong> <br> 
-                    ❌ Your Answer: <strong class="${userAnswers[i] === q.answer ? 'correct' : 'incorrect'}">${userAnswers[i]}</strong>`;
+                      Correct Answer: <strong class="correct">${q.answer}</strong> <br> 
+                      Your Answer: <strong class="${userAnswers[i] === q.answer ? 'correct' : 'incorrect'}">${userAnswers[i]}</strong>`;
                 answersList.appendChild(listItem);
             });
 
